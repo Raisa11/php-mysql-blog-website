@@ -24,6 +24,28 @@
 
             ?>
 
+            <?php
+            if (!empty($_SESSION['id'])) {  ?>
+
+              <li class="nav-item active">
+                    <a class="nav-link lg" href="logout.php">Log out</a>
+                  </li>
+             
+           <?php }
+
+           else{ ?>
+            <li class="nav-item active">
+                    <a class="nav-link lg" href="#login">Login</a>
+                  </li>
+
+
+
+          <?php }
+            ?>
+            
+
+
+
               
               
               

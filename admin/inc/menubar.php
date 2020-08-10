@@ -108,6 +108,27 @@
                   </li>
                 </ul>
               </li>
+              <?php  }
+          else{ ?>
+            <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Profile
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="profile.php?id=<?php echo $_SESSION['id'];?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manage Proflie</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <?php }
+          ?>
               <!-- All Users Menu End -->
 
 
@@ -136,8 +157,7 @@
                 </ul>
               </li>
               <!-- All Users Menu End -->
-            <?php }
-          ?>
+            
 
           
              

@@ -15,18 +15,24 @@
             else{ 
           
 
-          $value = $_GET['search'];}
+          $value = mysqli_real_escape_string($db,$_GET['search']);
+        }
           ?>
 
           <?php
         
-           $query = "SELECT * FROM post WHERE title LIKE '%$value%' OR description LIKE '%$value%'";
+           $query = "SELECT * FROM post WHERE title LIKE '%$value%' OR description LIKE '%$value%' ORDER BY id DESC";
              $all_cat = mysqli_query($db, $query);
+             $count = mysqli_num_rows($all_cat);
+             if($count == 0){
+              echo '<div class="alert alert-warning">No post found</div>';
+             }
+             else{
               while ( $row = mysqli_fetch_assoc($all_cat)){
                
                   $id           = $row['id'];
               $title        = $row['title'];
-               $description  = $row['description'];
+               $desc  = $row['description'];
                 $thumbnail    = $row['thumbnail'];
                 $post_date    = $row['post_date'];
 
@@ -38,12 +44,21 @@
           </a>
 
              <img src="admin/img/post/<?php echo $thumbnail; ?>" class="img-fluid">
+             <?php
 
-          <p><?php echo $description;?></p>
+          $strCut = substr($desc,0 , 300);
+          $desc = substr($strCut, 0, strrpos($strCut, ' '));
+
+          ?>
+
+              <p><?php echo $desc; ?>
+           <a href="single.php?view=<?php echo $id; ?>" class="readmore">..read more</a>
+         </p>
           <p><strong>Posted on: </strong><?php echo $post_date;?></p>
         </div>
 
         <?php
+}
 }
 
 

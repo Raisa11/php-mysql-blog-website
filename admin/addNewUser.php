@@ -29,7 +29,7 @@
           <div class="col-lg-12">
             <form action="" method="post" enctype="multipart/form-data">
               <div class="form-group">
-                <input type="text" name="name" placeholder="Full name" class="form-control">
+                <input type="text" name="name" placeholder="Full name" class="form-control" required="required">
               </div>
               <div class="form-group">
                 <input type="text" name="username" placeholder="User Name" class="form-control">
@@ -43,17 +43,31 @@
               <div class="form-group">
                 <input type="password" name="password" placeholder="Password" class="form-control">
               </div>
+               <div class="form-group">
+                <input type="password" name="re-password" placeholder="Retype-Password" class="form-control">
+              </div>
 
               <div class="form-group">
                 <input type="file" name="image"class="form-control">
               </div>
 
               <div class="form-group">
-                <label>Set New User Role</label>
+               
                 <select name="role" class="form-control">
                   <option>Please Select Your Role</option>
                   <option value="0">Admin</option>
                   <option value="1">Editor</option>
+                   <option value="2">User</option>
+                </select>
+              </div>
+
+               <div class="form-group">
+              
+                <select name="status" class="form-control">
+                  <option> Account Status</option>
+                 
+                  <option value="1">Active</option>
+                   <option value="2">Inactive</option>
                 </select>
               </div>
 
@@ -73,38 +87,43 @@
           $email      = $_POST['email'];
           $phone      = $_POST['phone'];
           $password   = $_POST['password'];
+          $repassword   = $_POST['re-password'];
           $role       = $_POST['role'];
+          $status     = $_POST['status'];
 
           $image       = $_FILES['image']['name'];
           $image_tmp   = $_FILES['image']['tmp_name'];
+          if($password == $repassword){
+             $haspassword = sha1($password);
+          }
 
-          // $extn = strtolower(end(explode(".", $image)));
+           $extn = strtolower(end(explode(".", $image)));
 
-          // $extensions= array("jpeg","jpg","png");
+          $extensions= array("jpeg","jpg","png");
       
-          // if(in_array($extn,$extensions) === false){
-          //    header('Location: addNewUser.php');
-          // }else{
+           if(in_array($extn,$extensions) === false){
+              header('Location: addNewUser.php');
+           }else{
 
               $random_number = rand(0,100000);
 
-              $updatedimage = $random_number.$image;
+              $updatedimage = $random_number.'_'.$image;
 
-              move_uploaded_file($image_tmp,"img/".$updatedimage);
+              move_uploaded_file($image_tmp,"img/user/".$updatedimage);
 
-             $password = sha1($password);
+            
               
-              $query = "INSERT INTO user (name,user_name,email,phone, password,image,user_role) VALUES('$name','$username','$email','$phone','$password','$updatedimage','$role')";
+              $query = "INSERT INTO user (name,user_name,email,phone, password,image,user_role,status) VALUES('$name','$username','$email','$phone','$haspassword','$updatedimage','$role','$status')";
 
               $add_user = mysqli_query($db,$query);
 
               if($add_user){
-                echo"ok";
+               
                 header('Location: viewAllUsers.php');
               }else{
                 die("Error: ".mysqli_error($db));
               }
-  
+  }
       }
 
     ?>

@@ -28,6 +28,9 @@
                 <img src="admin/img/post/<?php echo $thumbnail;?>"class="img-fluid">
                 <p><?php echo $description;?></p>
             </div>
+           <?php
+
+           if( !empty($_SESSION['id']) && !empty($_SESSION['name'])){ ?>
 
             <div class="comments-section">
               <h3>Add Comments</h3>
@@ -46,6 +49,36 @@
 
               </form>
             </div>
+
+
+          
+
+          <?php }
+
+          else{ ?>
+            <h3>Login here to post a comment</h3>
+            <form action="login.php" method="post">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control">
+              </div>
+              <div class="form-group">
+                
+                <input type="submit" name="slogin" class="btn-main btn-primary" value="Login">
+                <a href="register.php">or Create an account?</a>
+              </div>
+            </form>
+
+         <?php }
+
+
+           ?>
+
+            
 
              
               <h2>comments:</h2>

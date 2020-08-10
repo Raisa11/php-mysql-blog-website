@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <table class="table">
+            <table id="data" class="table table-striped table-bordered">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">No</th>
@@ -39,6 +39,7 @@
                   <th scope="col">PhoneNo</th>
                   <th scope="col">Photo</th>
                   <th scope="col">UserRole</th>
+                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -48,9 +49,14 @@
             <?php 
 
               $query = "SELECT * FROM user";
-
-              $allUser = mysqli_query($db, $query);
-              $i = 0;
+               $i = 0;
+               $allUser = mysqli_query($db, $query);
+               $result = mysqli_num_rows($allUser);
+              if($result == 0){
+                echo "no data found in the database";
+              }
+              else{
+             
               while ($row = mysqli_fetch_assoc($allUser)) {
                   $id       = $row['user_id'];
                   $name     = $row['name'];
@@ -59,6 +65,7 @@
                   $phone    = $row['phone'];
                   $image    = $row['image'];
                   $role     = $row['user_role'];
+                  $status   = $row['status'];
                   $i++;
                   ?>
 
@@ -68,17 +75,49 @@
                   <td><?php echo $username;?></td>
                   <td><?php echo $email;?></td>
                   <td><?php echo $phone;?></td>
-                  <td><img src="img/<?php echo $image;?>" height="50" width="50" alt=""></td>
+
+                  <td><?php
+                  if(!empty($image)){ ?>
+                    <img src="img/user/<?php echo $image;?>" height="50" width="50" alt="">
+                    <?php
+                  }
+                  else{ ?>
+
+                     <img src="img/user/default.png" height="50" width="50" alt=" ">
+
+                     <?php
+
+                }
+
+                  ?>
+                 </td>
                   <td>
                     <?php
                       if ( $role == 0 ){ ?>
                         <span class="badge badge-success">Admin</span>
                       <?php }
-                      else{ ?>
+                      else if($role == 1){ ?>
                         <span class="badge badge-primary">Editor</span>
+                      <?php }
+
+                       else if($role == 2){ ?>
+                        <span class="badge badge-warning">User</span>
                       <?php }
                     ?>
                   </td>
+                  <td> <?php
+                  if ($status == 1) { ?>
+
+                      <span class="badge badge-success">Active</span>
+                      <?php
+                    }
+                      else if ($status == 2) { ?>
+                        <span class="badge badge-warning">Inactive</span>
+                        <?php
+                      }
+                  
+
+                  ?></td>
                   <td>
                     <div class="action-item">
                       <ul>
@@ -96,6 +135,7 @@
             <?php 
               }
 
+}
             ?>
 
               </tbody>
@@ -136,11 +176,12 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div><!-- /.content -->
-      <?php }
-      else{
-        echo "You are Not Authorized User";
-      }
-    ?>
+       <?php }
+       else{
+         echo "You are Not Authorized User";
+       }
+      
+    ?> 
 
     
   </div><!-- /.content-wrapper -->

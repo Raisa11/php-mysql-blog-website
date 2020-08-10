@@ -111,11 +111,16 @@
       $password             = $row['password'];
       $_SESSION['image']    = $row['image'];
       $_SESSION['role']     = $row['user_role'];
+      $_SESSION['status']   = $row['status'];
 
-      if($email == $_SESSION['email'] && $hassedPass==$password ){
+          
+            $_SESSION['image']       = $row['image'];
+
+      if($email == $_SESSION['email'] && $hassedPass==$password  && $_SESSION['status'] == 1 && $_SESSION['role'] != 3){
         header('Location: dashboard.php');
       }
-      else if($email == $_SESSION['email'] || $hassedPass==$password ){
+      // else if($email == $_SESSION['email'] || $hassedPass==$password ){
+       else if($email != $_SESSION['email'] || $hassedPass != $password || $_SESSION['status'] != 1 ){
         header('Location: index.php');
       }
       else{
